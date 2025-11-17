@@ -1,15 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:Olhuz.ViewModels"
+    xmlns:models="clr-namespace:Olhuz.Models"
     x:Class="Olhuz.Components.SideMenuView"
     x:Name="MenuView"
-    BackgroundColor="#CDE8FF">
-    <ContentView.BindingContext>
-        <vm:MenuViewModel/>
-    </ContentView.BindingContext>
+    BackgroundColor="{StaticResource OneBlue}">
 
+    <!-- Conte�do principal -->
     <Grid RowDefinitions="2*, 8.5*">
+        <!-- Cabe�alho (Linha 0) -->
         <HorizontalStackLayout
             Grid.Row="0"
             HorizontalOptions="Center"
@@ -18,7 +18,7 @@
             Margin="0,0,10,0"
             MinimumHeightRequest="60"
             Padding="0">
-            
+
             <Image
                 Source="logo.png"
                 Aspect="AspectFit"
@@ -26,31 +26,35 @@
                 VerticalOptions="Center"/>
 
             <Label
-                    Text="Olhuz"
-                    FontSize="40"
-                    VerticalOptions="Center"/>
+                Text="Olhuz"
+                FontSize="40"
+				TextColor="Black"
+                VerticalOptions="Center"/>
 
         </HorizontalStackLayout>
 
+        <!-- Menu (Linha 1) -->
         <Border
             Grid.Row="1"
-            BackgroundColor="Bisque"
+            BackgroundColor="{StaticResource TwoBlue}"
             StrokeShape="RoundRectangle 0 200 0 0"
             StrokeThickness="0"
             Shadow="{x:Null}"
             HorizontalOptions="Fill">
 
             <VerticalStackLayout VerticalOptions="Center" Padding="0">
-                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Items}">
+                <!-- ADICIONADO x:Name para o Controller se referir na lista de itens -->
+                <VerticalStackLayout x:Name="MenuStackLayout"
+                                     BindableLayout.ItemsSource="{Binding Items}">
                     <BindableLayout.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="models:MenuItemModel">
 
                             <Border
                                 x:Name="MenuOptionBorder"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 40 0 40 0"
-                                Padding="10, 20"
-                                Margin="20, 4, 0,4" 
+                                Padding="20, 20"
+                                Margin="10, 4, 0,4"
                                 Shadow="{x:Null}">
 
                                 <VisualStateManager.VisualStateGroups>
@@ -58,15 +62,16 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="PointerOver">
                                             <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="#EEEEEE" />
+                                                <Setter Property="BackgroundColor" Value="{StaticResource FourBlue}" />
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
 
                                 <Border.Triggers>
+                                    <!-- A propriedade IsSelected do Model (MenuItemModel) ainda controla o visual -->
                                     <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="BackgroundColor" Value="#111F69" />
+                                        <Setter Property="BackgroundColor" Value="{StaticResource OneBlue}" />
                                     </DataTrigger>
 
                                     <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="False">
@@ -75,22 +80,19 @@
                                 </Border.Triggers>
 
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer
-										Command="{Binding Source={x:Reference MenuView}, Path=BindingContext.NavigateCommand}"
-										CommandParameter="{Binding .}" />
+                                    <!-- Evento Tapped que ser� tratado no Code-Behind (Controller) -->
+                                    <TapGestureRecognizer Tapped="OnMenuItemTapped"/>
                                 </Border.GestureRecognizers>
 
                                 <HorizontalStackLayout Spacing="24">
-                                    <Image 
-                                        x:Name="MenuIcon"
-                                        Source="{Binding Icon}" 
-                                        HeightRequest="30" 
+                                    <Image
+                                        Source="{Binding Icon}"
+                                        HeightRequest="30"
                                         Aspect="AspectFit"/>
-                                    <Label 
-                                        x:Name="MenuLabel"
-                                        Text="{Binding Title}" 
-                                        TextColor="DarkOrange" 
-                                        FontSize="24" 
+                                    <Label
+                                        Text="{Binding Title}"
+                                        TextColor="Black"
+                                        FontSize="24"
                                         VerticalOptions="Center"/>
                                 </HorizontalStackLayout>
 

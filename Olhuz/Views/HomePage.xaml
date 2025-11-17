@@ -6,7 +6,6 @@
              BackgroundColor="#E5F3FF"
              Shell.FlyoutBehavior="Disabled">
 
-    <!-- Página com o menu de opções em cards sem o menu lateral -->
     <Grid
         RowDefinitions="2*,8*"
         Padding="80,40">
@@ -41,7 +40,6 @@
                 TextColor="Black"/>
         </Grid>
 
-        <!-- Container com os botões que direcionam para as páginas em formato de cards -->
         <Grid
             Grid.Row="1"
             VerticalOptions="Center"
@@ -50,24 +48,20 @@
             MaximumWidthRequest="2000"
             ColumnSpacing="40">
 
-            <!-- Card do botão da página de LER IMAGENS -->
             <Border
                 Grid.Column="0"
                 x:Name="ReadImageCard"
                 Style="{StaticResource CardButtonHome}">
 
-                <!-- Aréa para colocar ações de toques/gestos -->
                 <Border.GestureRecognizers>
-                    <!-- Reconhece um clique com mouse ou dedo -->
-                    <!-- Ao clicar no Border o comando será executado -->
-                    <TapGestureRecognizer Command="{Binding ReadImagePageCommand}" />
+                    <TapGestureRecognizer Tapped="OnReadImageTapped" />
                 </Border.GestureRecognizers>
 
                 <VerticalStackLayout
                     Style="{StaticResource CardStackLayoutHome}">
 
                     <Image
-                        Source="logo.png"
+                        Source="read_image.png"
                         Style="{StaticResource CardImageHome}"/>
 
                     <Label
@@ -79,27 +73,23 @@
                         Style="{StaticResource CardSubtitleLabelHome}" />
 
                 </VerticalStackLayout>
-                
+
             </Border>
 
-            <!-- Card do botão da página de LEITURAS RECENTES -->
             <Border
                 Grid.Column="1"
                 x:Name="ReadingHistoryCard"
                 Style="{StaticResource CardButtonHome}">
 
-                <!-- Aréa para colocar ações de toques/gestos -->
                 <Border.GestureRecognizers>
-                    <!-- Reconhece um clique com mouse ou dedo -->
-                    <!-- Ao clicar no Border o comando será executado -->
-                    <TapGestureRecognizer Command="{Binding ReadingHistoryPageCommand}" />
+                    <TapGestureRecognizer Tapped="OnReadingHistoryTapped" />
                 </Border.GestureRecognizers>
 
                 <VerticalStackLayout
                     Style="{StaticResource CardStackLayoutHome}">
 
                     <Image
-                        Source="logo.png"
+                        Source="reading_history.png"
                         Style="{StaticResource CardImageHome}"/>
 
                     <Label
@@ -111,27 +101,23 @@
                         Style="{StaticResource CardSubtitleLabelHome}"/>
 
                 </VerticalStackLayout>
-                
+
             </Border>
 
-            <!-- Card do botão da página de CONFIGURAÇÕES -->
             <Border
                 Grid.Column="2"
                 x:Name="SettingsCard"
                 Style="{StaticResource CardButtonHome}">
 
-                <!-- Aréa para colocar ações de toques/gestos -->
                 <Border.GestureRecognizers>
-                    <!-- Reconhece um clique com mouse ou dedo -->
-                    <!-- Ao clicar no Border o comando será executado -->
-                    <TapGestureRecognizer Command="{Binding SettingsPageCommand}" />
+                    <TapGestureRecognizer Tapped="OnSettingsTapped" />
                 </Border.GestureRecognizers>
 
                 <VerticalStackLayout
                     Style="{StaticResource CardStackLayoutHome}">
 
                     <Image
-                        Source="logo.png"
+                        Source="settings.png"
                         Style="{StaticResource CardImageHome}"/>
 
                     <Label
@@ -143,27 +129,23 @@
                         Style="{StaticResource CardSubtitleLabelHome}" />
 
                 </VerticalStackLayout>
-                
+
             </Border>
 
-            <!-- Card do botão da página de MINHA CONTA -->
             <Border
                 Grid.Column="3"
                 x:Name="MyAccountCard"
                 Style="{StaticResource CardButtonHome}">
 
-                <!-- Aréa para colocar ações de toques/gestos -->
                 <Border.GestureRecognizers>
-                    <!-- Reconhece um clique com mouse ou dedo -->
-                    <!-- Ao clicar no Border o comando será executado -->
-                    <TapGestureRecognizer Command="{Binding MyAccountPageCommand}" />
+                    <TapGestureRecognizer Tapped="OnMyAccountTapped" />
                 </Border.GestureRecognizers>
 
                 <VerticalStackLayout
                     Style="{StaticResource CardStackLayoutHome}">
 
                     <Image
-                        Source="logo.png"
+                        Source="account.png"
                         Style="{StaticResource CardImageHome}"/>
 
                     <Label
@@ -175,11 +157,11 @@
                         Style="{StaticResource CardSubtitleLabelHome}" />
 
                 </VerticalStackLayout>
-                
+
             </Border>
 
         </Grid>
-        
+
     </Grid>
-    
+
 </ContentPage>

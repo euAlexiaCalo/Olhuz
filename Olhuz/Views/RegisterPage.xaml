@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Olhuz.Views.RegisterPage">
+             x:Class="Olhuz.Views.RegisterPage"
+             Shell.FlyoutBehavior="Disabled">
+
     <Grid ColumnDefinitions="*,*">
 
         <!-- ====================== COLUNA ESQUERDA ====================== -->
         <Grid Grid.Column="0" BackgroundColor="White">
 
-            <Image Source="seta1.png" HorizontalOptions="Start" VerticalOptions="Start" HeightRequest="65" Aspect="AspectFit" Margin="0,0,0,10" />
+            <Image Source="seta.png" Style="{StaticResource BackImageButton}">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGoBackTapped"/>
+                </Image.GestureRecognizers>
+            </Image>
 
             <VerticalStackLayout Style="{StaticResource WelcomePanelStyle}">
 
@@ -33,8 +39,8 @@
                             <Label Text="Nome completo" Style="{StaticResource FieldLabelStyle}" />
                             <Border Style="{StaticResource FormEntryBorderStyle}">
                                 <Entry 
+                                    x:Name="FullNameEntry"
                                     Placeholder="Digite seu nome" 
-                                    Text="{Binding FullName, Mode=TwoWay}"
                                     Style="{StaticResource FormEntryStyle}" />
                             </Border>
                         </VerticalStackLayout>
@@ -44,7 +50,7 @@
                             <Label Text="Data de nascimento" Style="{StaticResource FieldLabelStyle}"/>
                             <Border Style="{StaticResource FormDatePickerBorderStyle}">
                                 <DatePicker 
-                                    Date="{Binding BirthDate, Mode=TwoWay}"
+                                    x:Name="BirthDateDatePicker"
                                     Format="dd/MM/yyyy" 
                                     Style="{StaticResource FormDatePickerStyle}"/>
                             </Border>
@@ -56,8 +62,8 @@
                             <Label Text="E-mail" Style="{StaticResource FieldLabelStyle}" />
                             <Border Style="{StaticResource FormEntryBorderStyle}">
                                 <Entry 
+                                    x:Name="EmailEntry"
                                     Placeholder="Digite seu email" 
-                                    Text="{Binding Email, Mode=TwoWay}"
                                     Keyboard="Email" 
                                     Style="{StaticResource FormEntryStyle}"/>
                             </Border>
@@ -69,31 +75,36 @@
 
                             <Border Style="{StaticResource FormEntryBorderStyle}">
                                 <Grid ColumnDefinitions="*,Auto">
+                                    <!-- Adicionado x:Name e evento TextChanged -->
                                     <Entry 
+                                        x:Name="PasswordEntry"
                                         Grid.Column="0" 
                                         Placeholder="Digite sua senha" 
-                                        Text="{Binding Password, Mode=TwoWay}"
                                         Keyboard="Password" 
-                                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}"
+                                        IsPassword="True"
+                                        TextChanged="OnPasswordTextChanged" 
                                         Style="{StaticResource FormEntryStyle}"/>
 
-                                    <Image Grid.Column="1" Source="{Binding PasswordIconSource}" Margin="6,0,0,0">
+                                    <!-- Adicionado x:Name e evento Tapped -->
+                                    <Image x:Name="PasswordIcon" Grid.Column="1" Source="eye_closed.png" HeightRequest="10" Margin="16,0,16,0">
                                         <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                                            <!-- TapGestureRecognizer com evento C# para visibilidade unificada -->
+                                            <TapGestureRecognizer Tapped="OnPasswordToggleTapped" />
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </Grid>
                             </Border>
 
-                            <!-- Barras de Força da Senha vinculadas à ViewModel -->
+                            <!-- Barras de Força da Senha com x:Name e cores estáticas -->
                             <HorizontalStackLayout Spacing="8" Margin="16,8,0,0">
-                                <BoxView Color="{Binding Bar1Color}" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
-                                <BoxView Color="{Binding Bar2Color}" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
-                                <BoxView Color="{Binding Bar3Color}" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
-                                <BoxView Color="{Binding Bar4Color}" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
+                                <BoxView x:Name="StrengthBar1" Color="LightGray" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
+                                <BoxView x:Name="StrengthBar2" Color="LightGray" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
+                                <BoxView x:Name="StrengthBar3" Color="LightGray" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
+                                <BoxView x:Name="StrengthBar4" Color="LightGray" WidthRequest="60" HeightRequest="5" CornerRadius="2"/>
                             </HorizontalStackLayout>
 
-                            <Label Text="{Binding PasswordStrengthText}" FontSize="12" TextColor="Gray" Margin="24,0,0,0" />
+                            <!-- Label de Força da Senha com x:Name -->
+                            <Label x:Name="PasswordStrengthLabel" Text="Senha muito fraca" FontSize="12" TextColor="Gray" Margin="24,0,0,0" />
 
                         </VerticalStackLayout>
 
@@ -102,18 +113,20 @@
                             <Label Text="Confirmar senha" Style="{StaticResource FieldLabelStyle}"/>
                             <Border Style="{StaticResource FormEntryBorderStyle}">
                                 <Grid ColumnDefinitions="*,Auto">
+                                    <!-- Adicionado x:Name -->
                                     <Entry
+                                        x:Name="ConfirmPasswordEntry"
                                         Grid.Column="0"
-                                        Text="{Binding ConfirmPassword, Mode=TwoWay}"
                                         Placeholder="Confirme sua senha"
                                         Keyboard="Password"
-                                        IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBooleanConverter}}" 
+                                        IsPassword="True" 
                                         Style="{StaticResource FormEntryStyle}"/>
 
-                                    <!-- A imagem de toggle é a mesma, vinculada à mesma Source/Command -->
-                                    <Image Grid.Column="1" Source="{Binding PasswordIconSource}" Margin="6,0,0,0">
+                                    <!-- O evento Tapped está apenas no campo acima, mas este ícone deve ser nomeado (x:Name) para ser atualizado via C# -->
+                                    <Image x:Name="ConfirmPasswordIcon" Grid.Column="1" Source="eye_closed.png" HeightRequest="10" Margin="16,0,16,0">
                                         <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding TogglePasswordVisibilityCommand}" />
+                                            <!-- Ícone será atualizado pelo OnPasswordToggleTapped do primeiro campo. -->
+                                            <TapGestureRecognizer Tapped="OnPasswordToggleTapped" />
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </Grid>
@@ -123,43 +136,44 @@
                         <!-- Seleção dos termos de uso -->
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="0" HorizontalOptions="Center" VerticalOptions="Center" MaximumWidthRequest="400">
 
-                            <!-- CheckBox vinculada à IsTermsAccepted -->
-                            <CheckBox Grid.Column="0" IsChecked="{Binding IsTermsAccepted, Mode=TwoWay}"/>
+                            <!-- CheckBox com x:Name e evento de mudança de estado -->
+                            <CheckBox x:Name="TermsCheckBox" Grid.Column="0" CheckedChanged="OnTermsCheckBoxCheckedChanged"/>
 
                             <Label Grid.Column="1" LineBreakMode="WordWrap" VerticalTextAlignment="Center" HorizontalTextAlignment="Start">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span FontSize="16" Text="Ao continuar, você concorda com os "/>
+                                        <Span FontSize="16" Text="Ao continuar, você concorda com os " TextColor="Black"/>
 
-                                        <!-- Termos de Uso (Comando) -->
+                                        <!-- Termos de Uso (Evento Tapped) -->
                                         <Span FontSize="16" Text="Termos de Uso" TextDecorations="Underline" TextColor="Blue">
                                             <Span.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding OpenTermsCommand}" />
+                                                <TapGestureRecognizer Tapped="TermosDeUsoTapped" />
                                             </Span.GestureRecognizers>
                                         </Span>
 
-                                        <Span FontSize="16" Text=" e a " />
+                                        <Span FontSize="16" Text=" e a "  TextColor="Black" />
 
-                                        <!-- Política de Privacidade (Comando) -->
+                                        <!-- Política de Privacidade (Evento Tapped) -->
                                         <Span FontSize="16" Text="Política de Privacidade" TextDecorations="Underline" TextColor="Blue">
                                             <Span.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding OpenPrivacyPolicyCommand}"/>
+                                                <TapGestureRecognizer Tapped="PoliticaDePrivacidadeTapped"/>
                                             </Span.GestureRecognizers>
                                         </Span>
 
-                                        <Span FontSize="16" Text=", conforme a Lei Geral de Proteção de Dados (LGPD)."/>
+                                        <Span FontSize="16" Text=", conforme a Lei Geral de Proteção de Dados (LGPD)."  TextColor="Black"/>
                                     </FormattedString>
                                 </Label.FormattedText>
                             </Label>
                         </Grid>
-
-                        <!-- Botão de Cadastro (Habilitação controlada por CanExecute/IsBusy) -->
+                        <!-- Botão de Cadastro (com x:Name e evento Clicked) -->
                         <Button
-                            Text="Cadastrar" 
-                            Command="{Binding RegisterCommand}" 
-                            IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"
+                            x:Name="BtnCadastrar"
+                            Text="Cadastrar" IsVisible="True"
+                            Clicked="OnRegisterClicked"
                             Style="{StaticResource PrimaryButtonStyle}" />
+                        <ActivityIndicator x:Name="Loading" IsVisible="False" Color="Blue" IsRunning="True" WidthRequest="25" HeightRequest="25" />
                     </VerticalStackLayout>
+
                 </Border>
             </ScrollView>
         </Grid>

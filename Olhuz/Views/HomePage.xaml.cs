@@ -1,32 +1,34 @@
-﻿using System;
-using Microsoft.Maui.Controls; // Certifique-se de que este using está presente
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Olhuz.ViewModels;
-
-namespace Olhuz.Views
+﻿namespace Olhuz.Views
 {
     public partial class HomePage : ContentPage
     {
         public HomePage()
         {
             InitializeComponent();
-            BindingContext = new HomeViewModel();
         }
 
-        // Esse método é executado automaticamente quando a página é navegada (aberta ou voltada para ela)
-        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        private async void OnReadImageTapped(object sender, TappedEventArgs e)
         {
-            // Chama o comportamento padrão da navegação do método base para garantir que qualquer lógica de navegação existente seja executada
-            base.OnNavigatedTo(args);
+            // Lógica para navegar para a página de Ler Imagens
+            await Shell.Current.GoToAsync($"{nameof(ReadImagePage)}");
+        }
 
-            // Ajusta o visual do cartão e aplica o estado "Normal" após a navegação
-            VisualStateManager.GoToState(ReadImageCard, "Normal");
-            VisualStateManager.GoToState(ReadingHistoryCard, "Normal");
-            VisualStateManager.GoToState(SettingsCard, "Normal");
-            VisualStateManager.GoToState(MyAccountCard, "Normal");
+        private async void OnReadingHistoryTapped(object sender, TappedEventArgs e)
+        {
+            // Lógica para navegar para a página de Leituras Recentes
+            await Shell.Current.GoToAsync($"{nameof(ReadingHistoryPage)}");
+        }
+
+        private async void OnSettingsTapped(object sender, TappedEventArgs e)
+        {
+            // Lógica para navegar para a página de Configurações
+            await Shell.Current.GoToAsync($"{nameof(SettingsPage)}");
+        }
+
+        private async void OnMyAccountTapped(object sender, TappedEventArgs e)
+        {
+            // Lógica para navegar para a página de Minha Conta
+            await Shell.Current.GoToAsync($"{nameof(MyAccountPage)}");
         }
     }
 }

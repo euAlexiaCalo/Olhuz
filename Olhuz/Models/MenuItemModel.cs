@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System; // Importar System para Type
 
 namespace Olhuz.Models
 {
@@ -10,7 +11,7 @@ namespace Olhuz.Models
         public string Icon { get; set; }
         public Type TargetPage { get; set; } // O tipo da página a ser carregada
 
-        // --- Propriedade de Seleção com Notificação (Correção Principal) ---
+        // --- Propriedade de Seleção com Notificação ---
         private bool _isSelected;
         public bool IsSelected
         {

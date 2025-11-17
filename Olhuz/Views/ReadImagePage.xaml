@@ -39,7 +39,7 @@
 
                     <Border Grid.Row="0" Style="{StaticResource CardRead}">
 
-                        <Grid Style="{StaticResource GridRowCardRead}">
+                        <Grid Style="{StaticResource GridRowCardRead1}">
 
                             <Label Grid.Row="0" Text="Descrição" Style="{StaticResource CardTitleLabelRead}"/>
                             <Label Grid.Row="1" Text="Aguardando imagem para descrever. O aplicativo irá descrever o conteúdo da imagem para você." Style="{StaticResource CardDescriptionLabelRead}"/>
